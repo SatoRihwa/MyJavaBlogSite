@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{layout/base :: layout('ホーム', ~{::div})}">
+<body>
+    <div>
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <h1 class="display-5">✿ ブログ記事一覧 ✿</h1>
+            </div>
+            <div class="col-md-4 text-end align-self-center">
+                <a href="/posts/new" class="btn btn-primary">
+                    <i class="fas fa-plus-circle"></i> 新しい記事を書く
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <!-- 投稿がない場合のメッセージ -->
+                <div th:if="${#lists.isEmpty(posts)}" class="alert alert-info">
+                    まだ投稿がありません。最初の記事を書いてみましょう！
+                </div>
+
+                <!-- 投稿一覧 -->
+                <div th:each="post : ${posts}" class="card mb-4">
+                    <div class="card-header">
+                        <h2 class="card-title h5 mb-0" th:text="${post.title}">投稿タイトル</h2>
+                    </div>
+                    <div class="card-body">
+                        <p class="post-date mb-2">
+                            <small th:text="${#temporals.format(post.createdAt, 'yyyy年MM月dd日 HH:mm')}">2023年1月1日 12:00</small>
+                        </p>
+                        <p class="card-text" th:text="${#strings.abbreviate(post.content, 200)}">
+                            投稿の内容...
+                        </p>
+                        <a th:href="@{/posts/{id}(id=${post.id})}" class="btn btn-sm btn-primary">
+                            続きを読む
+                        </a>
+                        <a th:href="@{/posts/{id}/edit(id=${post.id})}" class="btn btn-sm btn-secondary">
+                            編集
+                        </a>
+                        <form th:action="@{/posts/{id}/delete(id=${post.id})}" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-danger"
+                                    onclick="return confirm('本当に削除しますか？')">
+                                削除
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
