@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{layout/base :: layout(${post.title}, ~{::div})}">
+<body>
+    <div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <a href="/" class="btn btn-sm btn-secondary">&laquo; 一覧に戻る</a>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title h3 mb-0" th:text="${post.title}">記事タイトル</h1>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between mb-3">
+                    <div class="post-date">
+                        <small>
+                            投稿: <span th:text="${#temporals.format(post.createdAt, 'yyyy年MM月dd日 HH:mm')}">2023年1月1日 12:00</span>
+                        </small>
+                        <br>
+                        <small th:if="${post.updatedAt != post.createdAt}">
+                            更新: <span th:text="${#temporals.format(post.updatedAt, 'yyyy年MM月dd日 HH:mm')}">2023年1月2日 12:00</span>
+                        </small>
+                    </div>
+                    
+                    <div>
+                        <a th:href="@{/posts/{id}/edit(id=${post.id})}" class="btn btn-sm btn-secondary">編集</a>
+                        <form th:action="@{/posts/{id}/delete(id=${post.id})}" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-danger"
+                                    onclick="return confirm('本当に削除しますか？')">
+                                削除
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="post-content mt-4" th:text="${post.content}">
+                    記事の内容...
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
