@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{layout/base :: layout('エラー', ~{::div})}">
+<body>
+    <div>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title h4 mb-0">エラーが発生しました</h2>
+                    </div>
+                    <div class="card-body text-center">
+                        <img src="https://cdn.pixabay.com/photo/2016/10/18/18/19/sad-1751477_960_720.png" 
+                             alt="エラー" style="max-width: 150px;" class="mb-3">
+                             
+                        <h3 class="mb-3" th:text="${status} ?: 'エラー'">エラー</h3>
+                        <p class="mb-4" th:text="${message} ?: 'エラーが発生しました。申し訳ありませんが、もう一度試してください。'">
+                            エラーが発生しました。申し訳ありませんが、もう一度試してください。
+                        </p>
+                        
+                        <a href="/" class="btn btn-primary">ホームに戻る</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
