@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{layout/base :: layout(${post.id} ? '記事を編集' : '新しい記事', ~{::div})}">
+<body>
+    <div>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title h5 mb-0" th:text="${post.id} ? '記事を編集' : '新しい記事を書く'">
+                            記事を書く
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <form th:object="${post}" method="post" th:action="${post.id} ? @{/posts/{id}(id=${post.id})} : @{/posts}">
+                            <div class="mb-3">
+                                <label for="title" class="form-label">タイトル</label>
+                                <input type="text" class="form-control" id="title" th:field="*{title}" required>
+                                <div class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="content" class="form-label">内容</label>
+                                <textarea class="form-control" id="content" th:field="*{content}" rows="10" required></textarea>
+                                <div class="text-danger" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between">
+                                <a href="/" class="btn btn-secondary">キャンセル</a>
+                                <button type="submit" class="btn btn-primary">
+                                    <span th:text="${post.id} ? '更新する' : '投稿する'">投稿する</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
